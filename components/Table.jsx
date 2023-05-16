@@ -11,7 +11,6 @@ import {
 } from "@chakra-ui/react";
 
 export default function Table({ columns, data }) {
-  // Use the state and functions returned from useTable to build your UI
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
     useTable(
       {
@@ -21,9 +20,9 @@ export default function Table({ columns, data }) {
       useSortBy
     );
 
-  // Render the UI for your table
+  // Render UI
   return (
-    <CTable size="sm" {...getTableProps()}>
+    <CTable variant="striped" colorScheme="gray" size="sm" {...getTableProps()}>
       <Thead>
         {headerGroups.map((headerGroup) => (
           <Tr {...headerGroup.getHeaderGroupProps()}>

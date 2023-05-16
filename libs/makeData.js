@@ -9,19 +9,27 @@ const range = (len) => {
 };
 
 const newPerson = () => {
-  const statusChance = Math.random();
+  const statusChance = faker.number.int({ max: 100 });
   return {
-    firstName: faker.person.firstName(),
-    lastName: faker.person.lastName(),
-    age: faker.number.int({ max: 100 }),
-    visits: faker.number.int({ max: 100 }),
-    progress: faker.number.int({ max: 100 }),
-    status:
-      statusChance > 0.66
-        ? "relationship"
-        : statusChance > 0.33
-        ? "complicated"
-        : "single",
+    quantity: faker.number.int({ max: 100 }),
+    price: faker.commerce.price({ min: 100000, max: 10000000, dec: 2 }),
+    leadtime: faker.number.int({ max: 100 }),
+    quantityb: faker.number.int({ max: 100 }),
+    priceb: faker.commerce.price({ min: 100000, max: 10000000, dec: 2 }),
+    leadtimeb: faker.number.int({ max: 100 }),
+    quantityc: faker.number.int({ max: 100 }),
+    pricec: faker.commerce.price({ min: 100000, max: 10000000, dec: 2 }),
+    leadtimec: faker.number.int({ max: 100 }),
+    itemno: faker.number.int({ max: 100 }),
+    stockcode: faker.phone.number("###-###-##"),
+    partno: faker.phone.imei(),
+    description: faker.commerce.product(),
+    result:
+      statusChance >= 30
+        ? "Lowest Price: Supllier A"
+        : statusChance >= 60
+        ? "Lowest Price: Supllier B"
+        : "Lowest Price: Supllier C",
   };
 };
 

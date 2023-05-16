@@ -12,38 +12,78 @@ export default function Home() {
   const columns = React.useMemo(
     () => [
       {
-        Header: "Name",
+        Header: "Item No",
+        accessor: "itemno",
+      },
+      {
+        Header: "Stock Code",
+        accessor: "stockcode",
+      },
+      {
+        Header: "Part No",
+        accessor: "partno",
+      },
+      {
+        Header: "Description",
+        accessor: "description",
+      },
+      {
+        Header: "Supplier A",
         columns: [
           {
-            Header: "First Name",
-            accessor: "firstName",
+            Header: "Quatity",
+            accessor: "quantity",
           },
           {
-            Header: "Last Name",
-            accessor: "lastName",
+            Header: "Price",
+            accessor: "price",
+          },
+          ,
+          {
+            Header: "Lead Time",
+            accessor: "leadtime",
           },
         ],
       },
       {
-        Header: "Info",
+        Header: "Supplier B",
         columns: [
           {
-            Header: "Age",
-            accessor: "age",
+            Header: "Quatity",
+            accessor: "quantityb",
           },
           {
-            Header: "Visits",
-            accessor: "visits",
+            Header: "Price",
+            accessor: "priceb",
           },
+          ,
           {
-            Header: "Status",
-            accessor: "status",
-          },
-          {
-            Header: "Profile Progress",
-            accessor: "progress",
+            Header: "Lead Time",
+            accessor: "leadtimeb",
           },
         ],
+      },
+      {
+        Header: "Supplier C",
+        columns: [
+          {
+            Header: "Quatity",
+            accessor: "quantityc",
+          },
+          {
+            Header: "Price",
+            accessor: "pricec",
+          },
+          ,
+          {
+            Header: "Lead Time",
+            accessor: "leadtimec",
+          },
+        ],
+      },
+      {
+        Header: "Result",
+        accessor: "result",
       },
     ],
     []
