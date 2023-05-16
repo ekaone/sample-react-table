@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Head from "next/head";
 import dynamic from "next/dynamic";
 
@@ -8,48 +8,131 @@ import makeData from "@/libs/makeData";
 
 const Table = dynamic(() => import("@/components/Table"), { ssr: false });
 
+const EditableCell = ({
+  value: initialValue,
+  row: { index },
+  column: { id },
+  updateMyData, // This is a custom function that we supplied to our table instance
+}) => {
+  // We need to keep and update the state of the cell normally
+  const [value, setValue] = useState(initialValue);
+
+  const onChange = (e) => {
+    setValue(e.target.value);
+  };
+
+  // We'll only update the external data when the input is blurred
+  const onBlur = () => {
+    updateMyData(index, id, value);
+  };
+
+  // If the initialValue is changed external, sync it up with our state
+  React.useEffect(() => {
+    setValue(initialValue);
+  }, [initialValue]);
+
+  return <input value={value} onChange={onChange} onBlur={onBlur} />;
+};
+
 export default function Home() {
+  const [data, setData] = React.useState(() => makeData(20));
+
   const columns = React.useMemo(
     () => [
       {
-        Header: "Name",
+        Header: "Item No",
+        accessor: "itemno",
+      },
+      {
+        Header: "Stock Code",
+        accessor: "stockcode",
+      },
+      {
+        Header: "Part No",
+        accessor: "partno",
+      },
+      {
+        Header: "Description",
+        accessor: "description",
+      },
+      {
+        Header: "Supplier A",
         columns: [
           {
-            Header: "First Name",
-            accessor: "firstName",
+            Header: "Quatity",
+            accessor: "quantity",
           },
           {
-            Header: "Last Name",
-            accessor: "lastName",
+            Header: "Price",
+            accessor: "price",
+          },
+          ,
+          {
+            Header: "Lead Time",
+            accessor: "leadtime",
           },
         ],
       },
       {
-        Header: "Info",
+        Header: "Supplier B",
         columns: [
           {
-            Header: "Age",
-            accessor: "age",
+            Header: "Quatity",
+            accessor: "quantityb",
           },
           {
-            Header: "Visits",
-            accessor: "visits",
+            Header: "Price",
+            accessor: "priceb",
           },
+          ,
           {
-            Header: "Status",
-            accessor: "status",
-          },
-          {
-            Header: "Profile Progress",
-            accessor: "progress",
+            Header: "Lead Time",
+            accessor: "leadtimeb",
           },
         ],
+      },
+      {
+        Header: "Supplier C",
+        columns: [
+          {
+            Header: "Quatity",
+            accessor: "quantityc",
+          },
+          {
+            Header: "Price",
+            accessor: "pricec",
+          },
+          ,
+          {
+            Header: "Lead Time",
+            accessor: "leadtimec",
+          },
+        ],
+      },
+      {
+        Header: "Result",
+        accessor: "result",
       },
     ],
     []
   );
 
-  const data = React.useMemo(() => makeData(20), []);
+  const updateMyData = (rowIndex, columnId, value) => {
+    // setSkipPageReset(true);
+    setData((old) =>
+      old.map((row, index) => {
+        if (index === rowIndex) {
+          return {
+            ...old[rowIndex],
+            [columnId]: value,
+          };
+        }
+        return row;
+      })
+    );
+  };
+
+  // const data = React.useMemo(() => makeData(20), []);
 
   return (
     <>
@@ -62,7 +145,7 @@ export default function Home() {
       <main>
         <Layout>
           {" "}
-          <Table columns={columns} data={data} />
+          <Table columns={columns} data={data} updateMyData={updateMyData} />
         </Layout>
       </main>
     </>
