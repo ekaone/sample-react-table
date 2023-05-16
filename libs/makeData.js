@@ -8,7 +8,7 @@ const range = (len) => {
   return arr;
 };
 
-const newPerson = () => {
+const newItems = () => {
   const statusChance = faker.number.int({ max: 100 });
   return {
     quantity: faker.number.int({ max: 100 }),
@@ -38,8 +38,9 @@ export default function makeData(...lens) {
     const len = lens[depth];
     return range(len).map((d) => {
       return {
-        ...newPerson(),
-        subRows: lens[depth + 1] ? makeDataLevel(depth + 1) : undefined,
+        idx: d,
+        ...newItems(),
+        // subRows: lens[depth + 1] ? makeDataLevel(depth + 1) : undefined,
       };
     });
   };

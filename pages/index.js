@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useMemo } from "react";
 import Head from "next/head";
 import dynamic from "next/dynamic";
 
@@ -9,88 +9,17 @@ import makeData from "@/libs/makeData";
 const Table = dynamic(() => import("@/components/Table"), { ssr: false });
 
 export default function Home() {
-  const columns = React.useMemo(
-    () => [
-      {
-        Header: "Item No",
-        accessor: "itemno",
-      },
-      {
-        Header: "Stock Code",
-        accessor: "stockcode",
-      },
-      {
-        Header: "Part No",
-        accessor: "partno",
-      },
-      {
-        Header: "Description",
-        accessor: "description",
-      },
-      {
-        Header: "Supplier A",
-        columns: [
-          {
-            Header: "Quatity",
-            accessor: "quantity",
-          },
-          {
-            Header: "Price",
-            accessor: "price",
-          },
-          ,
-          {
-            Header: "Lead Time",
-            accessor: "leadtime",
-          },
-        ],
-      },
-      {
-        Header: "Supplier B",
-        columns: [
-          {
-            Header: "Quatity",
-            accessor: "quantityb",
-          },
-          {
-            Header: "Price",
-            accessor: "priceb",
-          },
-          ,
-          {
-            Header: "Lead Time",
-            accessor: "leadtimeb",
-          },
-        ],
-      },
-      {
-        Header: "Supplier C",
-        columns: [
-          {
-            Header: "Quatity",
-            accessor: "quantityc",
-          },
-          {
-            Header: "Price",
-            accessor: "pricec",
-          },
-          ,
-          {
-            Header: "Lead Time",
-            accessor: "leadtimec",
-          },
-        ],
-      },
-      {
-        Header: "Result",
-        accessor: "result",
-      },
-    ],
-    []
-  );
+  const data = useMemo(() => makeData(20), []);
 
-  const data = React.useMemo(() => makeData(20), []);
+  const [records, setRecords] = React.useState([]);
 
+  useEffect(() => {
+    setRecords(data);
+  }, [data]);
+
+  useEffect(() => {
+    console.log(records);
+  }, [records]);
   return (
     <>
       <Head>
@@ -101,8 +30,9 @@ export default function Home() {
       </Head>
       <main>
         <Layout>
-          {" "}
-          <Table columns={columns} data={data} />
+          {/* <GlobalFilter preGlobalFilteredRows globalFilter setGlobalFilter />{" "} */}
+          {/* <Table data={data} /> */}
+          <Table data={records} />
         </Layout>
       </main>
     </>
