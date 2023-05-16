@@ -8,16 +8,41 @@ import {
   Th,
   Td,
   chakra,
+  Button,
 } from "@chakra-ui/react";
 
 export default function Table({ columns, data }) {
+  const tableHooks = (hooks) => {
+    hooks.visibleColumns.push((columns) => [
+      ...columns,
+      {
+        id: "Edit",
+        Header: "Edit",
+        Cell: ({ row }) => (
+          <Button
+            onClick={() =>
+              alert(
+                "Editing: " + row.values.itemno + "➡️" + row.values.stockcode
+              )
+            }
+            colorScheme="teal"
+            size="xs"
+          >
+            Edit
+          </Button>
+        ),
+      },
+    ]);
+  };
+
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
     useTable(
       {
         columns,
         data,
       },
-      useSortBy
+      useSortBy,
+      tableHooks
     );
 
   // Render UI
